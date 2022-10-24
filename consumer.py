@@ -71,17 +71,52 @@ def get_5ordered_requests(files):
 
     return requests, len(requests)
 
-if __name__ == '__main__':
+def insert_into_bucket(client, j_data_serialized, put_requests_here, owner, widget_id):
+    logging.info("Got s3 bucket data (prepare_s3bucket_dataa)")
+    try:
+        client.put_object(
+        Body=j_data_serialized,
+        Bucket=put_requests_here,
+        Key=f'widgets/{owner}/{widget_id}'
+        )
+        logging.info("Entered request into bucket (put_object)")
+    except Exception:
+        logging.info('Could NOT put request into bucket (put_object)')
+        raise Exception
+
+def insert_into_dynamdb_table(table, item):
+    logging.info("Got dynamodb data (prepare_dynamodb_data)")
+    try:
+        table.put_item(Item=item)
+        logging.info("Entered request into dynamodb table (put_item)")
+    except Exception:
+        logging.info('Could NOT put request into dynamodb table (put_item)')
+        raise Exception
+
+def delete_from_bucket(client, resources_to_use, key):
+    try:
+        client.delete_object(Bucket=resources_to_use, Key=key)
+        logging.info("Deleted requests (delete_object)")
+    except Exception:
+        logging.info('Could NOT delete request (delete_object)')
+        raise Exception
+
+def analyze_cl_arguments(argv1, argv2):
     # bucket from where all the requests are at
-    resources_to_use = sys.argv[1]
+    resources_to_use = argv1
     # where the requests are going
     # b or d for either bucket or dynamodb for first letter
     # then either bucket name or table name
     # ex. d_tablename
     # ex. b_bucketname
-    storage_strategy = sys.argv[2]
+    storage_strategy = argv2
     type_requst = storage_strategy[0]
     put_requests_here = storage_strategy[2:]
+
+    return resources_to_use, type_requst, put_requests_here
+
+if __name__ == '__main__':
+    resources_to_use, type_requst, put_requests_here = analyze_cl_arguments(sys.argv[1], sys.argv[2])
     table = dynamodb.Table(put_requests_here)
     read_bucket = s3.Bucket(resources_to_use)
     logging.basicConfig(filename='consumer_logs.log', filemode='w', level=logging.INFO)
@@ -107,36 +142,17 @@ if __name__ == '__main__':
                     # insert bucket
                     if(type_requst == 'b'):
                         j_data_serialized = prepare_s3bucket_data(body)
-                        logging.info("Got s3 bucket data (prepare_s3bucket_dataa)")
-                        try:
-                            client.put_object(
-                                Body=j_data_serialized,
-                                Bucket=put_requests_here,
-                                Key=f'widgets/{owner}/{json_data.widgetId}'
-                            )
-                            logging.info("Entered request into bucket (put_object)")
-                        except Exception:
-                            logging.info('Could NOT put request into bucket (put_object)')
-                            raise Exception
+                        insert_into_bucket(client, j_data_serialized, put_requests_here, owner, json_data.widgetId)
 
                     # insert db
                     if(type_requst == 'd'):
                         item = prepare_dynamodb_data(json_data, owner)
-                        logging.info("Got dynamodb data (prepare_dynamodb_data)")
-                        try:
-                            table.put_item(Item=item)
-                            logging.info("Entered request into dynamodb table (put_item)")
-                        except Exception:
-                            logging.info('Could NOT put request into dynamodb table (put_item)')
-                            raise Exception
+                        insert_into_dynamdb_table(table, item)
 
                 #delete
-                try:
-                    client.delete_object(Bucket=resources_to_use, Key=key)
-                    logging.info("Deleted requests (delete_object)")
-                except Exception:
-                    logging.info('Could NOT delete request (delete_object)')
-                    raise Exception
+                delete_from_bucket(client, resources_to_use, key)
+
+                # info for loggin
                 logging.info(f'Finished: {key}')
                 logging.info("Finished one loop")
 
