@@ -8,12 +8,9 @@ import logging
 
 s3 = boto3.resource('s3')
 client = boto3.client('s3')
-read_bucket = s3.Bucket('usu-cs5260-wasatch-dist')
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
-table = dynamodb.Table("widgets")
 
-def prepare_data(obj):
-    body = obj.get()['Body'].read()
+def prepare_data(body):
     if len(body) > 0:
         json_data = json.loads(body, object_hook=lambda d: SimpleNamespace(**d))
         owner = (json_data.owner.lower()).replace(" ", "-")
@@ -75,8 +72,16 @@ def get_5ordered_requests(files):
     return requests, len(requests)
 
 if __name__ == '__main__':
-    storage_strategy = sys.argv[1]
-    resources_to_use = sys.argv[2]
+    # bucket from where all the requests are at
+    resources_to_use = sys.argv[1]
+    # where the requests are going
+    # b or d for either bucket or dynamodb for first letter
+    # then either bucket name or table name
+    storage_strategy = sys.argv[2]
+    type_requst = storage_strategy[0]
+    put_requests_here = storage_strategy[2:]
+    table = dynamodb.Table(put_requests_here)
+    read_bucket = s3.Bucket(resources_to_use)
     logging.basicConfig(filename='consumer_logs.log', filemode='w', level=logging.DEBUG)
     tries = 0
 
@@ -91,7 +96,8 @@ if __name__ == '__main__':
             tries = 0
             for obj in requests:
                 key = str(obj.key)
-                body, json_data, owner = prepare_data(obj)
+                body = obj.get()['Body'].read()
+                body, json_data, owner = prepare_data(body)
                 logging.info("Prepared data (prepare_data)")
                 logging.info("Key: ", key)
                 # blank requests
@@ -103,7 +109,7 @@ if __name__ == '__main__':
                         try:
                             client.put_object(
                                 Body=j_data_serialized,
-                                Bucket='usu-cs5260-wasatch-dist',
+                                Bucket=put_requests_here,
                                 Key=f'widgets/{owner}/{json_data.widgetId}'
                             )
                             logging.info("Entered request into bucket (put_object)")
@@ -116,15 +122,15 @@ if __name__ == '__main__':
                         item = prepare_dynamodb_data(json_data, owner)
                         logging.info("Got dynamodb data (prepare_dynamodb_data)")
                         try:
-                            table.put_item(Item=tries)
+                            table.put_item(Item=item)
                             logging.info("Entered request into dynamodb table (put_item)")
                         except Exception:
                             logging.error('Could NOT put request into dynamodb table (put_item)')
                             raise Exception
 
-                # delete
+                #delete
                 try:
-                    client.delete_object(Bucket='usu-cs5260-wasatch-dist', Key=key)
+                    client.delete_object(Bucket=resources_to_use, Key=key)
                     logging.info("Deleted requests (delete_object)")
                 except Exception:
                     logging.error('Could NOT delete request (delete_object)')
