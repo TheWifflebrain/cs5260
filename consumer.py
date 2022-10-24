@@ -84,7 +84,6 @@ if __name__ == '__main__':
     put_requests_here = storage_strategy[2:]
     table = dynamodb.Table(put_requests_here)
     read_bucket = s3.Bucket(resources_to_use)
-    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
     logging.basicConfig(filename='consumer_logs.log', filemode='w', level=logging.INFO)
     tries = 0
 
