@@ -77,16 +77,19 @@ if __name__ == '__main__':
     # where the requests are going
     # b or d for either bucket or dynamodb for first letter
     # then either bucket name or table name
+    # ex. d_tablename
+    # ex. b_bucketname
     storage_strategy = sys.argv[2]
     type_requst = storage_strategy[0]
     put_requests_here = storage_strategy[2:]
     table = dynamodb.Table(put_requests_here)
     read_bucket = s3.Bucket(resources_to_use)
-    logging.basicConfig(filename='consumer_logs.log', filemode='w', level=logging.DEBUG)
+    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+    logging.basicConfig(filename='consumer_logs.log', filemode='w', level=logging.INFO)
     tries = 0
 
     while tries < 10:
-        logging.info(f"Tries: {tries}")
+        logging.info(f"Main while loop tries: {tries}")
         files = read_bucket.objects.all()
         # 5 sorted requests 
         # in instructions: read Widget Requests from Bucket 2 in key order
@@ -99,11 +102,11 @@ if __name__ == '__main__':
                 body = obj.get()['Body'].read()
                 body, json_data, owner = prepare_data(body)
                 logging.info("Prepared data (prepare_data)")
-                logging.info("Key: ", key)
+                logging.info(f'Key: {key}')
                 # blank requests
                 if body != -1 and json_data != -1 and owner != -1:
                     # insert bucket
-                    if(storage_strategy == 'bucket'):
+                    if(type_requst == 'b'):
                         j_data_serialized = prepare_s3bucket_data(body)
                         logging.info("Got s3 bucket data (prepare_s3bucket_dataa)")
                         try:
@@ -114,18 +117,18 @@ if __name__ == '__main__':
                             )
                             logging.info("Entered request into bucket (put_object)")
                         except Exception:
-                            logging.error('Could NOT put request into bucket (put_object)')
+                            logging.info('Could NOT put request into bucket (put_object)')
                             raise Exception
 
                     # insert db
-                    if(storage_strategy == 'dynamodb'):
+                    if(type_requst == 'd'):
                         item = prepare_dynamodb_data(json_data, owner)
                         logging.info("Got dynamodb data (prepare_dynamodb_data)")
                         try:
                             table.put_item(Item=item)
                             logging.info("Entered request into dynamodb table (put_item)")
                         except Exception:
-                            logging.error('Could NOT put request into dynamodb table (put_item)')
+                            logging.info('Could NOT put request into dynamodb table (put_item)')
                             raise Exception
 
                 #delete
@@ -133,12 +136,14 @@ if __name__ == '__main__':
                     client.delete_object(Bucket=resources_to_use, Key=key)
                     logging.info("Deleted requests (delete_object)")
                 except Exception:
-                    logging.error('Could NOT delete request (delete_object)')
+                    logging.info('Could NOT delete request (delete_object)')
                     raise Exception
+                logging.info(f'Finished: {key}')
                 logging.info("Finished one loop")
+
         else:
             time.sleep(0.1)
             tries+=1
-            logging.info(f"Tries: {tries}")
+            logging.info(f"Else statement tries: {tries}")
     logging.info("Finished")
 
