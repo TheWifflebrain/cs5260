@@ -77,11 +77,11 @@ def get_5ordered_requests(files):
 if __name__ == '__main__':
     storage_strategy = sys.argv[1]
     resources_to_use = sys.argv[2]
-    logging.basicConfig(filename='consumer_logs.log', encoding='utf-8', level=logging.DEBUG)
+    logging.basicConfig(filename='consumer_logs.log', filemode='w', level=logging.DEBUG)
     tries = 0
 
     while tries < 10:
-        logging.info("Tries:", tries)
+        logging.info(f"Tries: {tries}")
         files = read_bucket.objects.all()
         # 5 sorted requests 
         # in instructions: read Widget Requests from Bucket 2 in key order
@@ -93,6 +93,7 @@ if __name__ == '__main__':
                 key = str(obj.key)
                 body, json_data, owner = prepare_data(obj)
                 logging.info("Prepared data (prepare_data)")
+                logging.info("Key: ", key)
                 # blank requests
                 if body != -1 and json_data != -1 and owner != -1:
                     # insert bucket
@@ -128,9 +129,10 @@ if __name__ == '__main__':
                 except Exception:
                     logging.error('Could NOT delete request (delete_object)')
                     raise Exception
+                logging.info("Finished one loop")
         else:
             time.sleep(0.1)
             tries+=1
-            logging.info("Tries:", tries)
+            logging.info(f"Tries: {tries}")
     logging.info("Finished")
 
