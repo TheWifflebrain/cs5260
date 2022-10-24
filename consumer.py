@@ -132,4 +132,5 @@ if __name__ == '__main__':
             time.sleep(0.1)
             tries+=1
             logging.info("Tries:", tries)
+    logging.info("Finished")
 
