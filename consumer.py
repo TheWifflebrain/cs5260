@@ -1,10 +1,10 @@
-#https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItemsDocumentClasses.html
 import boto3
 import sys
 import time
 import json
 from types import SimpleNamespace
 from operator import itemgetter
+import logging
 
 s3 = boto3.resource('s3')
 client = boto3.client('s3')
@@ -77,37 +77,59 @@ def get_5ordered_requests(files):
 if __name__ == '__main__':
     storage_strategy = sys.argv[1]
     resources_to_use = sys.argv[2]
+    logging.basicConfig(filename='consumer_logs.log', encoding='utf-8', level=logging.DEBUG)
     tries = 0
 
     while tries < 10:
+        logging.info("Tries:", tries)
         files = read_bucket.objects.all()
         # 5 sorted requests 
         # in instructions: read Widget Requests from Bucket 2 in key order
         requests, num_requests = get_5ordered_requests(files)
+        logging.info("Got requests (get_5ordered_requests)")
         if(num_requests > 0):
             tries = 0
             for obj in requests:
                 key = str(obj.key)
                 body, json_data, owner = prepare_data(obj)
+                logging.info("Prepared data (prepare_data)")
                 # blank requests
                 if body != -1 and json_data != -1 and owner != -1:
                     # insert bucket
                     if(storage_strategy == 'bucket'):
                         j_data_serialized = prepare_s3bucket_data(body)
-                        client.put_object(
-                            Body=j_data_serialized,
-                            Bucket='usu-cs5260-wasatch-dist',
-                            Key=f'widgets/{owner}/{json_data.widgetId}'
-                        )
+                        logging.info("Got s3 bucket data (prepare_s3bucket_dataa)")
+                        try:
+                            client.put_object(
+                                Body=j_data_serialized,
+                                Bucket='usu-cs5260-wasatch-dist',
+                                Key=f'widgets/{owner}/{json_data.widgetId}'
+                            )
+                            logging.info("Entered request into bucket (put_object)")
+                        except Exception:
+                            logging.error('Could NOT put request into bucket (put_object)')
+                            raise Exception
 
                     # insert db
                     if(storage_strategy == 'dynamodb'):
                         item = prepare_dynamodb_data(json_data, owner)
-                        table.put_item(Item=item)
+                        logging.info("Got dynamodb data (prepare_dynamodb_data)")
+                        try:
+                            table.put_item(Item=tries)
+                            logging.info("Entered request into dynamodb table (put_item)")
+                        except Exception:
+                            logging.error('Could NOT put request into dynamodb table (put_item)')
+                            raise Exception
 
                 # delete
-                client.delete_object(Bucket='usu-cs5260-wasatch-dist', Key=key)
+                try:
+                    client.delete_object(Bucket='usu-cs5260-wasatch-dist', Key=key)
+                    logging.info("Deleted requests (delete_object)")
+                except Exception:
+                    logging.error('Could NOT delete request (delete_object)')
+                    raise Exception
         else:
             time.sleep(0.1)
             tries+=1
+            logging.info("Tries:", tries)
 
