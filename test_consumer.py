@@ -112,3 +112,16 @@ def test_prepare_s3bucket_data(body, expected):
     # giving me an error because my expected values printed out ' and not "
     expected = expected.replace("'", "\"")
     assert j_data_serialized == expected
+
+
+@pytest.mark.parametrize("argv1,argv2,expected1,expected2,expected3", 
+                        [("usu-cs5260-wasatch-requests", "d_widgets",
+                        "usu-cs5260-wasatch-requests", "d", "widgets"),
+                        ("usu-cs5260-wasatch-dist", "b_usu-cs5260-wasatch-web",
+                        "usu-cs5260-wasatch-dist", "b", "usu-cs5260-wasatch-web")
+                        ])
+def test_analyze_cl_arguments(argv1, argv2, expected1, expected2, expected3):
+    resources_to_use, type_requst, put_requests_here = analyze_cl_arguments(argv1, argv2)
+    assert resources_to_use == expected1
+    assert type_requst == expected2
+    assert put_requests_here == expected3
