@@ -2,6 +2,7 @@ import pytest
 import string
 from consumer import *
 from types import SimpleNamespace
+from unittest.mock import MagicMock
 
 @pytest.mark.parametrize("body, expected1, expected2, expected3", 
                         [(b'{"type":"create","requestId":"b897b7f0-ffba-4960-a611-213c66e75112","widgetId":"3b7fef78-f757-424d-9c0c-431768022528","owner":"Mary Matthews","label":"F","description":"PFZCIEPDAYIYRAKNO","otherAttributes":[{"name":"size","value":"504"},{"name":"height","value":"431"},{"name":"height-unit","value":"cm"},{"name":"width-unit","value":"cm"},{"name":"quantity","value":"786"}]}',
@@ -131,3 +132,43 @@ def test_analyze_cl_arguments(argv1, argv2, expected1, expected2, expected3):
     assert resources_to_use == expected1
     assert type_requst == expected2
     assert put_requests_here == expected3
+
+
+@pytest.mark.parametrize("j_data_serialized, put_requests_here, owner, widget_id, expected", 
+                        [("{'name':'quantity','value':'786'}", "usu-cs5260-wasatch-dist",
+                        "henry-hops", "3b7fef78", "widget/henry-hops/3b7fef78"),
+                        ("{'name':'size','value':'504'}", "usu-cs5260-wasatch-web",
+                        "mary-matthews", "213c66e75112", "widget/mary-matthews/213c66e75112")
+                        ])
+def test_insert_into_bucket(j_data_serialized, put_requests_here, owner, widget_id, expected):
+    client = MagicMock()
+    client.put_object(
+        j_data_serialized,
+        put_requests_here,
+        f'widget/{owner}/{widget_id}'
+        )
+    client.put_object.assert_called_with(j_data_serialized, put_requests_here, expected)
+
+
+@pytest.mark.parametrize("item,expected", 
+                        [("{'id': '3b7fef78-f757-424d-9c0c-431768022528', 'owner': 'mary-matthews', 'label': 'F', 'description': 'PFZCIEPDAYIYRAKNO', 'size': '504', 'height': '431', 'height-unit': 'cm', 'width-unit': 'cm', 'quantity': '786'}",
+                        "{'id': '3b7fef78-f757-424d-9c0c-431768022528', 'owner': 'mary-matthews', 'label': 'F', 'description': 'PFZCIEPDAYIYRAKNO', 'size': '504', 'height': '431', 'height-unit': 'cm', 'width-unit': 'cm', 'quantity': '786'}"),
+                        ("{'id': 'deab01f2-0075-4a11-87e1-21cbea5c0c7f', 'owner': 'henry-hops', 'label': 'DHSRL', 'description': 'XROPEIDSOOJAYOXGY', 'size': '884', 'height': '51', 'length-unit': 'cm', 'rating': '4.8361626', 'price': '34.82', 'quantity': '297', 'vendor': 'EPAQ'}",
+                        "{'id': 'deab01f2-0075-4a11-87e1-21cbea5c0c7f', 'owner': 'henry-hops', 'label': 'DHSRL', 'description': 'XROPEIDSOOJAYOXGY', 'size': '884', 'height': '51', 'length-unit': 'cm', 'rating': '4.8361626', 'price': '34.82', 'quantity': '297', 'vendor': 'EPAQ'}")
+                        ])
+def test_intert_into_dynamodb_table(item, expected):
+    table = MagicMock()
+    table.put_item(item)
+    table.put_item.assert_called_with(expected)
+
+
+@pytest.mark.parametrize("resources_to_use, key, expected1, expected2", 
+                        [("usu-cs5260-wasatch-dist", "1612306369713",
+                        "usu-cs5260-wasatch-dist", "1612306369713"),
+                        ("usu-cs5260-wasatch-web", "1612306374392'",
+                        "usu-cs5260-wasatch-web", "1612306374392'")
+                        ])
+def test_delete_from_bucket(resources_to_use, key, expected1, expected2):
+    client = MagicMock()
+    client.delete_object(resources_to_use, key)
+    client.delete_object.assert_called_with(expected1, expected2)
