@@ -114,8 +114,6 @@ if __name__ == '__main__':
         # in instructions: read Widget Requests from Bucket 2 in key order
         # also do not read them all at once
         # so i will retrieve 5 requests and sort them
-        print(files)
-        print(type(files))
         requests = []
         count_requests = 0
         for obj in files:
@@ -134,7 +132,6 @@ if __name__ == '__main__':
             sorted(requests, key=itemgetter(1))
             requests = [item[0] for item in requests]
         logging.info(f'Got requests {num_requests} requests')
-        print(requests)
 
         # if retrieved more than 0 requests (there are requests to take care of)
         if(num_requests > 0):
