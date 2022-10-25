@@ -4,6 +4,7 @@ from consumer import *
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
+
 @pytest.mark.parametrize("body, expected1, expected2, expected3", 
                         [(b'{"type":"create","requestId":"b897b7f0-ffba-4960-a611-213c66e75112","widgetId":"3b7fef78-f757-424d-9c0c-431768022528","owner":"Mary Matthews","label":"F","description":"PFZCIEPDAYIYRAKNO","otherAttributes":[{"name":"size","value":"504"},{"name":"height","value":"431"},{"name":"height-unit","value":"cm"},{"name":"width-unit","value":"cm"},{"name":"quantity","value":"786"}]}',
                           b'{"type":"create","requestId":"b897b7f0-ffba-4960-a611-213c66e75112","widgetId":"3b7fef78-f757-424d-9c0c-431768022528","owner":"Mary Matthews","label":"F","description":"PFZCIEPDAYIYRAKNO","otherAttributes":[{"name":"size","value":"504"},{"name":"height","value":"431"},{"name":"height-unit","value":"cm"},{"name":"width-unit","value":"cm"},{"name":"quantity","value":"786"}]}',
@@ -15,7 +16,7 @@ from unittest.mock import MagicMock
                         -1)
                         ])
 def test_prepare_data(body, expected1, expected2, expected3):
-    body2, json_data, owner = prepare_data(body) 
+    body2, json_data, owner = prepare_data(body)
     assert body2 == expected1
     # json_data is a string because if it is not then pyteset does not recognize namespace
     assert str(json_data) == expected2
