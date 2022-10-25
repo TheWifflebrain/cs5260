@@ -53,26 +53,6 @@ def prepare_s3bucket_data(body):
     j_data_serialized = json.dumps(j_data, indent=4, sort_keys=True)
     return j_data_serialized
 
-def get_5ordered_requests(files):
-    requests = []
-    count_requests = 0
-    for obj in files:
-            count_requests+=1
-            key = str(obj.key)
-            # do not want "folders" or programs
-            if not "." in key and not "/" in key and key.isnumeric() == True:
-                # for sorting on key
-                requests.append([obj, key])
-            # only retreiving some requests as per instructions
-            if(count_requests == 5):
-                break
-    # delete key pair
-    if(len(requests) >= 1):
-        sorted(requests, key=itemgetter(1))
-        requests = [item[0] for item in requests]
-
-    return requests, len(requests)
-
 def insert_into_bucket(client, j_data_serialized, put_requests_here, owner, widget_id):
     logging.info("Got s3 bucket data (prepare_s3bucket_dataa)")
     try:
@@ -134,6 +114,8 @@ if __name__ == '__main__':
         # in instructions: read Widget Requests from Bucket 2 in key order
         # also do not read them all at once
         # so i will retrieve 5 requests and sort them
+        print(files)
+        print(type(files))
         requests = []
         count_requests = 0
         for obj in files:
@@ -152,6 +134,7 @@ if __name__ == '__main__':
             sorted(requests, key=itemgetter(1))
             requests = [item[0] for item in requests]
         logging.info(f'Got requests {num_requests} requests')
+        print(requests)
 
         # if retrieved more than 0 requests (there are requests to take care of)
         if(num_requests > 0):
@@ -171,18 +154,15 @@ if __name__ == '__main__':
                         j_data_serialized = prepare_s3bucket_data(body)
                         # inserting into bucket
                         insert_into_bucket(client, j_data_serialized, put_requests_here, owner, json_data.widgetId)
-
                     # insert db
                     if(type_requst == 'd'):
                         # preparing the data for the format the db wants it in
                         item = prepare_dynamodb_data(json_data, owner)
                         # inserting into db
                         insert_into_dynamdb_table(table, item)
-
                 #delete
                 delete_from_bucket(client, resources_to_use, key)
-
-                # info for loggin
+                # info for logging
                 logging.info(f'Finished: {key}')
                 logging.info("Finished one loop")
 
