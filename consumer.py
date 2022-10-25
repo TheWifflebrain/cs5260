@@ -11,6 +11,7 @@ client = boto3.client('s3')
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 
 def prepare_data(body):
+    # preparing the data from a request for aws commands
     if len(body) > 0:
         json_data = json.loads(body, object_hook=lambda d: SimpleNamespace(**d))
         owner = (json_data.owner.lower()).replace(" ", "-")
@@ -47,6 +48,7 @@ def prepare_dynamodb_data(json_data, owner):
     return item
 
 def prepare_s3bucket_data(body):
+    # preparing the data how an s3 bucket needs data
     j_data = json.loads(body.decode('utf8').replace("'", '"'))
     j_data_serialized = json.dumps(j_data, indent=4, sort_keys=True)
     return j_data_serialized
@@ -80,6 +82,7 @@ def insert_into_bucket(client, j_data_serialized, put_requests_here, owner, widg
         Key=f'widgets/{owner}/{widget_id}'
         )
         logging.info("Entered request into bucket (put_object)")
+    # raise an expection if there was an error inserting into bucket
     except Exception:
         logging.info('Could NOT put request into bucket (put_object)')
         raise Exception
@@ -89,6 +92,7 @@ def insert_into_dynamdb_table(table, item):
     try:
         table.put_item(Item=item)
         logging.info("Entered request into dynamodb table (put_item)")
+    # raise an expection if there was an error inserting into db
     except Exception:
         logging.info('Could NOT put request into dynamodb table (put_item)')
         raise Exception
@@ -97,6 +101,7 @@ def delete_from_bucket(client, resources_to_use, key):
     try:
         client.delete_object(Bucket=resources_to_use, Key=key)
         logging.info("Deleted requests (delete_object)")
+    # raise an expection if there was an error deleting
     except Exception:
         logging.info('Could NOT delete request (delete_object)')
         raise Exception
@@ -127,26 +132,51 @@ if __name__ == '__main__':
         files = read_bucket.objects.all()
         # 5 sorted requests 
         # in instructions: read Widget Requests from Bucket 2 in key order
-        requests, num_requests = get_5ordered_requests(files)
-        logging.info("Got requests (get_5ordered_requests)")
+        # also do not read them all at once
+        # so i will retrieve 5 requests and sort them
+        requests = []
+        count_requests = 0
+        for obj in files:
+            count_requests+=1
+            key = str(obj.key)
+            # do not want "folders" or programs
+            if not "." in key and not "/" in key and key.isnumeric() == True:
+                # for sorting on key
+                requests.append([obj, key])
+            # only retreiving some requests as per instructions
+            if(count_requests == 5):
+                break
+        # delete key pair
+        num_requests = len(requests)
+        if(num_requests >= 1):
+            sorted(requests, key=itemgetter(1))
+            requests = [item[0] for item in requests]
+        logging.info(f'Got requests {num_requests} requests')
+
+        # if retrieved more than 0 requests (there are requests to take care of)
         if(num_requests > 0):
             tries = 0
             for obj in requests:
                 key = str(obj.key)
                 body = obj.get()['Body'].read()
+                # prepare the data for the aws commands
                 body, json_data, owner = prepare_data(body)
                 logging.info("Prepared data (prepare_data)")
                 logging.info(f'Key: {key}')
-                # blank requests
+                # blank requests do not do them
                 if body != -1 and json_data != -1 and owner != -1:
                     # insert bucket
                     if(type_requst == 'b'):
+                        # preparing the data for the format the bucket wants it in
                         j_data_serialized = prepare_s3bucket_data(body)
+                        # inserting into bucket
                         insert_into_bucket(client, j_data_serialized, put_requests_here, owner, json_data.widgetId)
 
                     # insert db
                     if(type_requst == 'd'):
+                        # preparing the data for the format the db wants it in
                         item = prepare_dynamodb_data(json_data, owner)
+                        # inserting into db
                         insert_into_dynamdb_table(table, item)
 
                 #delete
@@ -161,4 +191,3 @@ if __name__ == '__main__':
             tries+=1
             logging.info(f"Else statement tries: {tries}")
     logging.info("Finished")
-
