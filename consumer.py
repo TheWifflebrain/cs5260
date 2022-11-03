@@ -86,7 +86,7 @@ def delete_from_bucket(client, resources_to_use, key):
         logging.info('Could NOT delete request (delete_object)')
         raise Exception
 
-def analyze_cl_arguments(argv1, argv2):
+def analyze_cl_arguments(argv1, argv2, argv3):
     # bucket from where all the requests are at
     resources_to_use = argv1
     # where the requests are going
@@ -97,11 +97,28 @@ def analyze_cl_arguments(argv1, argv2):
     storage_strategy = argv2
     type_requst = storage_strategy[0]
     put_requests_here = storage_strategy[2:]
+    q_name = argv3
 
-    return resources_to_use, type_requst, put_requests_here
+    return resources_to_use, type_requst, put_requests_here, q_name
+
+def delete_s3bucket_data(put_requests_here, owner, id):
+    try:
+        logging.info("Deleted request (delete_s3bucket_data)")
+        s3.Object(put_requests_here, f'widgets/{owner}/{id}').delete()
+    except:
+        logging.info(f'Could NOT delete request: widgets/{owner}/{id}')
+        raise Exception
+
+def delete_from_dynamdb_table(table, key):
+    try:
+        logging.info("Deleted request (delete_from_dynamdb_table)")
+        table.delete_item(Key=key)
+    except:
+        logging.info(f'Could NOT delete request: key')
+        raise Exception
 
 if __name__ == '__main__':
-    resources_to_use, type_requst, put_requests_here = analyze_cl_arguments(sys.argv[1], sys.argv[2])
+    resources_to_use, type_requst, put_requests_here, q_name = analyze_cl_arguments(sys.argv[1], sys.argv[2], sys.argv[3])
     table = dynamodb.Table(put_requests_here)
     read_bucket = s3.Bucket(resources_to_use)
     logging.basicConfig(filename='consumer_logs.log', filemode='w', level=logging.INFO)
@@ -145,18 +162,40 @@ if __name__ == '__main__':
                 logging.info(f'Key: {key}')
                 # blank requests do not do them
                 if body != -1 and json_data != -1 and owner != -1:
+                    request_type = getattr(json_data, 'type')
                     # insert bucket
                     if(type_requst == 'b'):
-                        # preparing the data for the format the bucket wants it in
-                        j_data_serialized = prepare_s3bucket_data(body)
-                        # inserting into bucket
-                        insert_into_bucket(client, j_data_serialized, put_requests_here, owner, json_data.widgetId)
+                        if(request_type == 'insert'):
+                            logging.info(f'Inserting bucket request')
+                            # preparing the data for the format the bucket wants it in
+                            j_data_serialized = prepare_s3bucket_data(body)
+                            # inserting into bucket
+                            insert_into_bucket(client, j_data_serialized, put_requests_here, owner, json_data.widgetId)
+                        if(request_type == 'delete'):
+                            logging.info(f'Deleting bucket request')
+                            delete_s3bucket_data(put_requests_here, owner, json_data.widgetId)
+                        if(request_type == 'update'):
+                            logging.info(f'Updating bucket request')
+                            delete_s3bucket_data(put_requests_here, owner, json_data.widgetId)
+                            j_data_serialized = prepare_s3bucket_data(body)
+                            insert_into_bucket(client, j_data_serialized, put_requests_here, owner, json_data.widgetId)
                     # insert db
                     if(type_requst == 'd'):
-                        # preparing the data for the format the db wants it in
-                        item = prepare_dynamodb_data(json_data, owner)
-                        # inserting into db
-                        insert_into_dynamdb_table(table, item)
+                        if(request_type == 'insert'):
+                            logging.info(f'Updating dynamodb request')
+                            # preparing the data for the format the db wants it in
+                            item = prepare_dynamodb_data(json_data, owner)
+                            # inserting into db
+                            insert_into_dynamdb_table(table, item)
+                        if(request_type == 'delete'):
+                            logging.info(f'Deleting dynamodb request')
+                            delete_from_dynamdb_table(table, json_data.widgetId)
+                        if(request_type == 'update'):
+                            logging.info(f'Updating dynamodb request')
+                            delete_from_dynamdb_table(table, json_data.widgetId)
+                            item = prepare_dynamodb_data(json_data, owner)
+                            insert_into_dynamdb_table(table, item)
+                        
                 #delete
                 delete_from_bucket(client, resources_to_use, key)
                 # info for logging
@@ -168,3 +207,4 @@ if __name__ == '__main__':
             tries+=1
             logging.info(f"Else statement tries: {tries}")
     logging.info("Finished")
+    
