@@ -80,10 +80,10 @@ def insert_into_dynamdb_table(table, item):
 def delete_from_bucket(client, resources_to_use, key):
     try:
         client.delete_object(Bucket=resources_to_use, Key=key)
-        logging.info("Deleted requests (delete_object)")
+        logging.info("END: Deleted finished requests (delete_object)")
     # raise an expection if there was an error deleting
     except Exception:
-        logging.info('Could NOT delete request (delete_object)')
+        logging.info('END: Could NOT delete finished request (delete_object)')
         raise Exception
 
 def analyze_cl_arguments(argv1, argv2, argv3):
@@ -112,7 +112,7 @@ def delete_s3bucket_data(put_requests_here, owner, id):
 def delete_from_dynamdb_table(table, key):
     try:
         logging.info("Deleted request (delete_from_dynamdb_table)")
-        table.delete_item(Key=key)
+        table.delete_item(Key={'id': key})
     except:
         logging.info(f'Could NOT delete request: key')
         raise Exception
@@ -163,6 +163,8 @@ if __name__ == '__main__':
                 # blank requests do not do them
                 if body != -1 and json_data != -1 and owner != -1:
                     request_type = getattr(json_data, 'type')
+                    logging.info(f'Request type: {request_type}')
+                    logging.info(f'WidgetId: {json_data.widgetId}')
                     # insert bucket
                     if(type_requst == 'b'):
                         if(request_type == 'insert'):
