@@ -122,17 +122,18 @@ def test_prepare_s3bucket_data(body, expected):
     assert j_data_serialized == expected
 
 
-@pytest.mark.parametrize("argv1,argv2,expected1,expected2,expected3", 
-                        [("usu-cs5260-wasatch-requests", "d_widgets",
-                        "usu-cs5260-wasatch-requests", "d", "widgets"),
-                        ("usu-cs5260-wasatch-dist", "b_usu-cs5260-wasatch-web",
-                        "usu-cs5260-wasatch-dist", "b", "usu-cs5260-wasatch-web")
+@pytest.mark.parametrize("argv1,argv2,expected1,expected2,expected3,expected4", 
+                        [("q_cs5260-requests", "d_widgets",
+                          "q", "cs5260-requests", "d", "widgets"),
+                        ("b_usu-cs5260-wasatch-dist", "b_usu-cs5260-wasatch-web",
+                         "b", "usu-cs5260-wasatch-dist", "b", "usu-cs5260-wasatch-web")
                         ])
-def test_analyze_cl_arguments(argv1, argv2, expected1, expected2, expected3):
-    resources_to_use, type_requst, put_requests_here = analyze_cl_arguments(argv1, argv2)
-    assert resources_to_use == expected1
-    assert type_requst == expected2
-    assert put_requests_here == expected3
+def test_analyze_cl_arguments(argv1, argv2, expected1, expected2, expected3, expected4):
+    type_rtu, get_resources_here, type_requst, put_requests_here = analyze_cl_arguments(argv1, argv2)
+    assert type_rtu == expected1
+    assert get_resources_here == expected2
+    assert type_requst == expected3
+    assert put_requests_here == expected4
 
 
 @pytest.mark.parametrize("j_data_serialized, put_requests_here, owner, widget_id, expected", 
@@ -173,3 +174,22 @@ def test_delete_from_bucket(resources_to_use, key, expected1, expected2):
     client = MagicMock()
     client.delete_object(resources_to_use, key)
     client.delete_object.assert_called_with(expected1, expected2)
+
+@pytest.mark.parametrize("message", 
+                        [("messagetest1"), 
+                         ("messagetest2")
+                        ])
+def test_delete_from_queue(message):
+    message = MagicMock()
+    message.delete()
+    message.delete.assert_called()
+
+
+@pytest.mark.parametrize("queue, max_number, wait_time", 
+                        [("usu-cs5260-wasatch-dist", 1669713, 10),
+                        ("usu-cs5260-wasatch-web", 1674392, 15)
+                        ])
+def test_delete_from_bucket(queue, max_number, wait_time):
+    queue = MagicMock()
+    queue.receive_messages(['All'], max_number, wait_time)
+    queue.receive_messages.assert_called_with(['All'], max_number, wait_time)
