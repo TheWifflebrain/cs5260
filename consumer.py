@@ -8,7 +8,37 @@ import logging
 
 s3 = boto3.resource('s3')
 client = boto3.client('s3')
+sqs = boto3.resource('sqs', region_name='us-east-1')
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+
+def analyze_cl_arguments(argv1, argv2):
+    # bucket or queue from where all the requests are at
+    resources_to_use = argv1
+    type_rtu = resources_to_use[0]
+    get_resources_here = resources_to_use[2:]
+    # where the requests are going
+    # b or d for either bucket or dynamodb for first letter
+    # then either bucket name or table name
+    # ex. d_tablename
+    # ex. b_bucketname
+    storage_strategy = argv2
+    type_requst = storage_strategy[0]
+    put_requests_here = storage_strategy[2:]
+
+    return type_rtu, get_resources_here, type_requst, put_requests_here
+
+# https://docs.aws.amazon.com/code-samples/latest/catalog/python-sqs-message_wrapper.py.html
+def receive_queue_messages(queue, max_number, wait_time):
+    try:
+        messages = queue.receive_messages(
+            MessageAttributeNames=['All'],
+            MaxNumberOfMessages=max_number,
+            WaitTimeSeconds=wait_time
+        )
+        return messages
+    except:
+        logging.info(f'Could NOT recieve messages from queue')
+        raise Exception
 
 def prepare_data(body):
     # preparing the data from a request for aws commands
@@ -86,21 +116,6 @@ def delete_from_bucket(client, resources_to_use, key):
         logging.info('END: Could NOT delete finished request (delete_object)')
         raise Exception
 
-def analyze_cl_arguments(argv1, argv2, argv3):
-    # bucket from where all the requests are at
-    resources_to_use = argv1
-    # where the requests are going
-    # b or d for either bucket or dynamodb for first letter
-    # then either bucket name or table name
-    # ex. d_tablename
-    # ex. b_bucketname
-    storage_strategy = argv2
-    type_requst = storage_strategy[0]
-    put_requests_here = storage_strategy[2:]
-    q_name = argv3
-
-    return resources_to_use, type_requst, put_requests_here, q_name
-
 def delete_s3bucket_data(put_requests_here, owner, id):
     try:
         logging.info("Deleted request (delete_s3bucket_data)")
@@ -117,45 +132,68 @@ def delete_from_dynamdb_table(table, key):
         logging.info(f'Could NOT delete request: key')
         raise Exception
 
+def delete_from_queue(message):
+    try:
+        logging.info("Deleted request (delete_from_queue)")
+        message.delete()
+    except:
+        logging.info(f'Could NOT delete message from queue')
+        raise Exception
+
+
 if __name__ == '__main__':
-    resources_to_use, type_requst, put_requests_here, q_name = analyze_cl_arguments(sys.argv[1], sys.argv[2], sys.argv[3])
+    type_rtu, get_resources_here, type_requst, put_requests_here = analyze_cl_arguments(sys.argv[1], sys.argv[2])
     table = dynamodb.Table(put_requests_here)
-    read_bucket = s3.Bucket(resources_to_use)
     logging.basicConfig(filename='consumer_logs.log', filemode='w', level=logging.INFO)
     tries = 0
 
     while tries < 10:
         logging.info(f"Main while loop tries: {tries}")
-        files = read_bucket.objects.all()
-        # 5 sorted requests 
-        # in instructions: read Widget Requests from Bucket 2 in key order
-        # also do not read them all at once
-        # so i will retrieve 5 requests and sort them
-        requests = []
-        count_requests = 0
-        for obj in files:
-            count_requests+=1
-            key = str(obj.key)
-            # do not want "folders" or programs
-            if not "." in key and not "/" in key and key.isnumeric() == True:
-                # for sorting on key
-                requests.append([obj, key])
-            # only retreiving some requests as per instructions
-            if(count_requests == 5):
-                break
-        # delete key pair
-        num_requests = len(requests)
-        if(num_requests >= 1):
-            sorted(requests, key=itemgetter(1))
-            requests = [item[0] for item in requests]
-        logging.info(f'Got requests {num_requests} requests')
+
+        if(type_rtu == "b"):
+            logging.info(f'Getting requests from bucket')
+            read_bucket = s3.Bucket(get_resources_here)
+            files = read_bucket.objects.all()
+            # 10 sorted requests 
+            # in instructions: read Widget Requests from Bucket 2 in key order
+            # also do not read them all at once
+            # so i will retrieve 10 requests and sort them
+            requests = []
+            count_requests = 0
+            for obj in files:
+                count_requests+=1
+                key = str(obj.key)
+                # do not want "folders" or programs
+                if not "." in key and not "/" in key and key.isnumeric() == True:
+                    # for sorting on key
+                    requests.append([obj, key])
+                # only retreiving some requests as per instructions
+                if(count_requests == 10):
+                    break
+            # delete key pair
+            num_requests = len(requests)
+            if(num_requests >= 1):
+                sorted(requests, key=itemgetter(1))
+                requests = [item[0] for item in requests]
+            logging.info(f'Got requests {num_requests} requests')
+
+        if(type_rtu == "q"):
+            logging.info(f'Getting requests from queue')
+            queue = sqs.get_queue_by_name(QueueName=get_resources_here)
+            requests = receive_queue_messages(queue, 10, 2)
+            num_requests = len(requests)
 
         # if retrieved more than 0 requests (there are requests to take care of)
         if(num_requests > 0):
             tries = 0
             for obj in requests:
-                key = str(obj.key)
-                body = obj.get()['Body'].read()
+                if(type_rtu == "b"):
+                    key = str(obj.key)
+                    body = obj.get()['Body'].read()
+                if(type_rtu == "q"):
+                    key = obj.message_id
+                    body = obj.body
+
                 # prepare the data for the aws commands
                 body, json_data, owner = prepare_data(body)
                 logging.info("Prepared data (prepare_data)")
@@ -199,7 +237,10 @@ if __name__ == '__main__':
                             insert_into_dynamdb_table(table, item)
                         
                 #delete
-                delete_from_bucket(client, resources_to_use, key)
+                if(type_rtu == "b"):
+                    delete_from_bucket(client, get_resources_here, key)
+                if(type_rtu == "q"):
+                    delete_from_queue(obj)
                 # info for logging
                 logging.info(f'Finished: {key}')
                 logging.info("Finished one loop")
