@@ -158,17 +158,25 @@ def delete_from_queue(message):
 
 
 if __name__ == '__main__':
+    # https://stackoverflow.com/questions/25897096/how-to-log-to-file-stdout
+    logger = logging.getLogger('')
+    logger.setLevel(logging.INFO)
+    fh = logging.FileHandler(filename='consumer_logs_docker.log', mode='w')
+    sh = logging.StreamHandler(sys.stdout)
+    formatter = logging.Formatter('[%(asctime)s] - [%(funcName)s] - %(message)s',
+                                datefmt='%H:%M:%S')
+    fh.setFormatter(formatter)
+    sh.setFormatter(formatter)
+    logger.addHandler(fh)
+    logger.addHandler(sh)
+
     type_rtu, get_resources_here, type_requst, put_requests_here = analyze_cl_arguments(sys.argv[1], sys.argv[2])
     table = dynamodb.Table(put_requests_here)
-    #logging.basicConfig(filename='consumer_logs.log', filemode='w', level=logging.INFO)
-    print(type_rtu, get_resources_here, type_requst, put_requests_here)
-    print("hello")
-
+    logging.info(f"CLI Arguemnts: {type_rtu}, {get_resources_here}, {type_requst}, {put_requests_here}")
     tries = 0
 
     while tries < 10:
         logging.info(f"Main while loop tries: {tries}")
-
         if(type_rtu == "b"):
             logging.info(f'Getting requests from bucket')
             read_bucket = s3.Bucket(get_resources_here)
@@ -212,7 +220,6 @@ if __name__ == '__main__':
                 if(type_rtu == "q"):
                     key = obj.message_id
                     body = obj.body
-
                 # prepare the data for the aws commands
                 body, json_data, owner = prepare_data(body)
                 logging.info("Prepared data (prepare_data)")
@@ -240,20 +247,16 @@ if __name__ == '__main__':
                             insert_into_bucket(client, j_data_serialized, put_requests_here, owner, json_data.widgetId)
                     # insert db
                     if(type_requst == 'd'):
-                        print("hello1")
                         if(request_type == 'insert'):
-                            print("hello2")
                             logging.info(f'Updating dynamodb request')
                             # preparing the data for the format the db wants it in
                             item = prepare_dynamodb_data(json_data, owner)
                             # inserting into db
                             insert_into_dynamdb_table(table, item)
                         if(request_type == 'delete'):
-                            print("hello3")
                             logging.info(f'Deleting dynamodb request')
                             delete_from_dynamdb_table(table, json_data.widgetId)
                         if(request_type == 'update'):
-                            print("hello4")
                             logging.info(f'Updating dynamodb request')
                             delete_from_dynamdb_table(table, json_data.widgetId)
                             item = prepare_dynamodb_data(json_data, owner)
