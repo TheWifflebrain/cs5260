@@ -231,7 +231,7 @@ if __name__ == '__main__':
                     logging.info(f'WidgetId: {json_data.widgetId}')
                     # insert bucket
                     if(type_requst == 'b'):
-                        if(request_type == 'insert'):
+                        if(request_type == 'create'):
                             logging.info(f'Inserting bucket request')
                             # preparing the data for the format the bucket wants it in
                             j_data_serialized = prepare_s3bucket_data(body)
@@ -247,7 +247,7 @@ if __name__ == '__main__':
                             insert_into_bucket(client, j_data_serialized, put_requests_here, owner, json_data.widgetId)
                     # insert db
                     if(type_requst == 'd'):
-                        if(request_type == 'insert'):
+                        if(request_type == 'create'):
                             logging.info(f'Updating dynamodb request')
                             # preparing the data for the format the db wants it in
                             item = prepare_dynamodb_data(json_data, owner)
