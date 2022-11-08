@@ -1,6 +1,6 @@
 import pytest
 import string
-from consumer import *
+from consumer_term import *
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
