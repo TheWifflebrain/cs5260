@@ -200,8 +200,13 @@ if __name__ == '__main__':
             tries = 0
             for obj in requests:
                 if(type_rtu == "b"):
-                    key = str(obj.key)
-                    body = obj.get()['Body'].read()
+                    try:
+                        key = str(obj.key)
+                        body = obj.get()['Body'].read()
+                    except:
+                        logging.info('This request is already being processed')
+                        break
+                        raise Exception
                 if(type_rtu == "q"):
                     key = obj.message_id
                     body = obj.body
