@@ -2,7 +2,7 @@
 cs5260 aws homework which is uploading files to buckets, and dynamodb tables
 
 to run consumer.py:
-python -u consumer.py usu-cs5260-wasatch-requests b_usu-cs5260-wasatch-web
+python -u consumer.py b_usu-cs5260-wasatch-requests b_usu-cs5260-wasatch-web
 
 put above statement into the terminal 
 first argument is: where the requests files are at that you want to read
