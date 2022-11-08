@@ -1,0 +1,330 @@
+[06:27:54] - [<module>] - CLI Arguemnts: q, cs5260-requests, b, usu-cs5260-wasatch-web
+[06:27:54] - [<module>] - Main while loop tries: 0
+[06:27:54] - [<module>] - Getting requests from queue
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: f51828e4-6851-4618-9826-fbd682f4c592
+[06:27:54] - [<module>] - Request type: update
+[06:27:54] - [<module>] - WidgetId: 0fe2c67b-5e4b-4119-a158-b6f5c5ed466e
+[06:27:54] - [<module>] - Updating bucket request
+[06:27:54] - [delete_s3bucket_data] - Deleted request (delete_s3bucket_data)
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: f51828e4-6851-4618-9826-fbd682f4c592
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: fff43056-1c2d-443e-bde8-75290955f702
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: ef010c1c-4179-4886-b494-11de6a819dcf
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: fff43056-1c2d-443e-bde8-75290955f702
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: 843af4ad-ca48-4631-bdbc-e266520779ac
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: 95608d0f-c995-4864-b8ff-1b9a1f00bb72
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: 843af4ad-ca48-4631-bdbc-e266520779ac
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: 2912f320-8d66-42a0-98e5-5b09c1cf0b4a
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: c5c6c9b2-9ca4-4551-993d-82e5d67255a3
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: 2912f320-8d66-42a0-98e5-5b09c1cf0b4a
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: b8fe622d-2d27-4bc7-837f-86fe52fc905f
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: 383e4887-32c8-4349-83a9-dd2d52bf122d
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: b8fe622d-2d27-4bc7-837f-86fe52fc905f
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: e5e6444a-fb6d-4217-aefd-6d0225f4934b
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: 728addfe-709c-4ed1-9270-399e04b91c37
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: e5e6444a-fb6d-4217-aefd-6d0225f4934b
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: 44a4b931-a00c-46d1-85aa-ed1085d44f28
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: a9598606-d7b1-4f3e-89d8-e2fcca568cc9
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: 44a4b931-a00c-46d1-85aa-ed1085d44f28
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: 37d52c7f-8e98-461b-a6aa-f49044f22a90
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: eaded770-e492-4094-b7e4-4df9985cba00
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: 37d52c7f-8e98-461b-a6aa-f49044f22a90
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: 58ed5f85-eeef-42fc-b52b-851408bd02c8
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: 686fd51a-67f6-4d89-8d33-05e8ef6bdf43
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: 58ed5f85-eeef-42fc-b52b-851408bd02c8
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: 4b4b8a7e-15c1-4515-949a-2c861cf0d2d2
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: 692c97ab-171e-4a97-8761-f6230517d27d
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: 4b4b8a7e-15c1-4515-949a-2c861cf0d2d2
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Main while loop tries: 0
+[06:27:54] - [<module>] - Getting requests from queue
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: f011a2b4-ff5f-45c9-abc5-c406eee59899
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: 7c42ada6-527d-4e7c-80f8-01819aa374ea
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:54] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:54] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:54] - [<module>] - Finished: f011a2b4-ff5f-45c9-abc5-c406eee59899
+[06:27:54] - [<module>] - Finished one loop
+[06:27:54] - [<module>] - Prepared data (prepare_data)
+[06:27:54] - [<module>] - Key: 034e1315-9e8d-41c2-bda9-fe7fc85c974f
+[06:27:54] - [<module>] - Request type: create
+[06:27:54] - [<module>] - WidgetId: caa775e7-cb7e-48f6-8ffe-afe090605c8f
+[06:27:54] - [<module>] - Inserting bucket request
+[06:27:54] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: 034e1315-9e8d-41c2-bda9-fe7fc85c974f
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: fe377c55-2469-45e9-84b9-0582b9d3ef02
+[06:27:55] - [<module>] - Request type: create
+[06:27:55] - [<module>] - WidgetId: c0a1e7e0-bcfc-4d6f-8219-031186438041
+[06:27:55] - [<module>] - Inserting bucket request
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: fe377c55-2469-45e9-84b9-0582b9d3ef02
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: ecd0d144-3e34-4c66-a6cc-900a4c08dcd2
+[06:27:55] - [<module>] - Request type: update
+[06:27:55] - [<module>] - WidgetId: b9174554-5e72-4382-a863-cef210fb0c64
+[06:27:55] - [<module>] - Updating bucket request
+[06:27:55] - [delete_s3bucket_data] - Deleted request (delete_s3bucket_data)
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: ecd0d144-3e34-4c66-a6cc-900a4c08dcd2
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: f76a6bbe-aa75-4c14-98fc-fff4c6000bc3
+[06:27:55] - [<module>] - Request type: delete
+[06:27:55] - [<module>] - WidgetId: bf222b3a-7975-4374-a38f-984e916128e6
+[06:27:55] - [<module>] - Deleting bucket request
+[06:27:55] - [delete_s3bucket_data] - Deleted request (delete_s3bucket_data)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: f76a6bbe-aa75-4c14-98fc-fff4c6000bc3
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: f2f33542-5c57-40e4-a200-141c4296a453
+[06:27:55] - [<module>] - Request type: update
+[06:27:55] - [<module>] - WidgetId: 8b51bf70-f4bb-4d86-98b8-a03acfb90e89
+[06:27:55] - [<module>] - Updating bucket request
+[06:27:55] - [delete_s3bucket_data] - Deleted request (delete_s3bucket_data)
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: f2f33542-5c57-40e4-a200-141c4296a453
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Main while loop tries: 0
+[06:27:55] - [<module>] - Getting requests from queue
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: 5086ba20-1165-4b48-9381-7232d2e94478
+[06:27:55] - [<module>] - Request type: create
+[06:27:55] - [<module>] - WidgetId: d1bfbfcd-fd37-491e-8cef-b484645fec99
+[06:27:55] - [<module>] - Inserting bucket request
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: 5086ba20-1165-4b48-9381-7232d2e94478
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: 32b8f877-6656-475d-a664-214414b9eee3
+[06:27:55] - [<module>] - Request type: create
+[06:27:55] - [<module>] - WidgetId: 9b6633d1-6ec3-4692-af16-8114f9045b6d
+[06:27:55] - [<module>] - Inserting bucket request
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: 32b8f877-6656-475d-a664-214414b9eee3
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: c7079134-1a3c-4f44-b5e7-00402b435980
+[06:27:55] - [<module>] - Request type: update
+[06:27:55] - [<module>] - WidgetId: 190ebf79-202d-4d56-a414-5595d4d01b9d
+[06:27:55] - [<module>] - Updating bucket request
+[06:27:55] - [delete_s3bucket_data] - Deleted request (delete_s3bucket_data)
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: c7079134-1a3c-4f44-b5e7-00402b435980
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: af77468b-8e71-48a2-887e-f4f5df0b235d
+[06:27:55] - [<module>] - Request type: update
+[06:27:55] - [<module>] - WidgetId: 18abffe7-d0ce-48c9-88df-28c4ac676361
+[06:27:55] - [<module>] - Updating bucket request
+[06:27:55] - [delete_s3bucket_data] - Deleted request (delete_s3bucket_data)
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: af77468b-8e71-48a2-887e-f4f5df0b235d
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: 61ee4292-c5a0-4748-8d99-f9614e8087ce
+[06:27:55] - [<module>] - Request type: create
+[06:27:55] - [<module>] - WidgetId: 900e3ca4-a821-444a-aded-8876ea4ae9a4
+[06:27:55] - [<module>] - Inserting bucket request
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: 61ee4292-c5a0-4748-8d99-f9614e8087ce
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: 9674706b-ff71-452d-9843-14b3f6f69348
+[06:27:55] - [<module>] - Request type: create
+[06:27:55] - [<module>] - WidgetId: 0fbcee83-d2bc-4df5-a206-77f9661a3739
+[06:27:55] - [<module>] - Inserting bucket request
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: 9674706b-ff71-452d-9843-14b3f6f69348
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: 7035e9e9-9caf-410a-931f-18942332fd72
+[06:27:55] - [<module>] - Request type: create
+[06:27:55] - [<module>] - WidgetId: 47bdd9ed-b9ee-4eec-94c5-b3bdd8dc7b8a
+[06:27:55] - [<module>] - Inserting bucket request
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: 7035e9e9-9caf-410a-931f-18942332fd72
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: d9cfd77f-af7d-4c82-a8ca-2dacc122c0b9
+[06:27:55] - [<module>] - Request type: create
+[06:27:55] - [<module>] - WidgetId: 2d81164d-ec10-43c5-be8b-8b84ec588cc0
+[06:27:55] - [<module>] - Inserting bucket request
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: d9cfd77f-af7d-4c82-a8ca-2dacc122c0b9
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: 2d5b7354-c562-4851-8c6a-12c3b2fa0708
+[06:27:55] - [<module>] - Request type: update
+[06:27:55] - [<module>] - WidgetId: caa775e7-cb7e-48f6-8ffe-afe090605c8f
+[06:27:55] - [<module>] - Updating bucket request
+[06:27:55] - [delete_s3bucket_data] - Deleted request (delete_s3bucket_data)
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: 2d5b7354-c562-4851-8c6a-12c3b2fa0708
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: 89350dd2-ae4e-40b7-be22-053711de89ed
+[06:27:55] - [<module>] - Request type: create
+[06:27:55] - [<module>] - WidgetId: 09bf6d14-4575-4b50-8431-d4516a9e4b19
+[06:27:55] - [<module>] - Inserting bucket request
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:55] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:55] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:55] - [<module>] - Finished: 89350dd2-ae4e-40b7-be22-053711de89ed
+[06:27:55] - [<module>] - Finished one loop
+[06:27:55] - [<module>] - Main while loop tries: 0
+[06:27:55] - [<module>] - Getting requests from queue
+[06:27:55] - [<module>] - Prepared data (prepare_data)
+[06:27:55] - [<module>] - Key: b60f0aa4-6c91-484f-b8c7-5241e3d8fd6c
+[06:27:55] - [<module>] - Request type: create
+[06:27:55] - [<module>] - WidgetId: dd298662-df80-4853-beaf-6ccae1b40781
+[06:27:55] - [<module>] - Inserting bucket request
+[06:27:55] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:56] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:56] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:56] - [<module>] - Finished: b60f0aa4-6c91-484f-b8c7-5241e3d8fd6c
+[06:27:56] - [<module>] - Finished one loop
+[06:27:56] - [<module>] - Prepared data (prepare_data)
+[06:27:56] - [<module>] - Key: d5751eb8-2ae3-4831-b488-2e000d4a9e5b
+[06:27:56] - [<module>] - Request type: create
+[06:27:56] - [<module>] - WidgetId: 55213cb8-239e-4737-9f4f-c9fad3354c1d
+[06:27:56] - [<module>] - Inserting bucket request
+[06:27:56] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:56] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:56] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:56] - [<module>] - Finished: d5751eb8-2ae3-4831-b488-2e000d4a9e5b
+[06:27:56] - [<module>] - Finished one loop
+[06:27:56] - [<module>] - Prepared data (prepare_data)
+[06:27:56] - [<module>] - Key: 038f3f0c-1980-4568-bbfe-402acbd084e9
+[06:27:56] - [<module>] - Request type: delete
+[06:27:56] - [<module>] - WidgetId: e160935a-2a67-4838-9119-c584d16f437c
+[06:27:56] - [<module>] - Deleting bucket request
+[06:27:56] - [delete_s3bucket_data] - Deleted request (delete_s3bucket_data)
+[06:27:56] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:56] - [<module>] - Finished: 038f3f0c-1980-4568-bbfe-402acbd084e9
+[06:27:56] - [<module>] - Finished one loop
+[06:27:56] - [<module>] - Prepared data (prepare_data)
+[06:27:56] - [<module>] - Key: 61443cd9-7d20-4e21-92c9-ae099ecd2900
+[06:27:56] - [<module>] - Request type: create
+[06:27:56] - [<module>] - WidgetId: a3d9bebb-37a5-478f-bf83-dbfad580d098
+[06:27:56] - [<module>] - Inserting bucket request
+[06:27:56] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:56] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:56] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:56] - [<module>] - Finished: 61443cd9-7d20-4e21-92c9-ae099ecd2900
+[06:27:56] - [<module>] - Finished one loop
+[06:27:56] - [<module>] - Prepared data (prepare_data)
+[06:27:56] - [<module>] - Key: 512f20b5-fd6c-4b0a-bc8b-14874495fd16
+[06:27:56] - [<module>] - Request type: create
+[06:27:56] - [<module>] - WidgetId: c5131c21-2fee-4b5a-9d4b-5d277b6ec458
+[06:27:56] - [<module>] - Inserting bucket request
+[06:27:56] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
+[06:27:56] - [insert_into_bucket] - Entered request into bucket (put_object)
+[06:27:56] - [delete_from_queue] - Deleted request (delete_from_queue)
+[06:27:56] - [<module>] - Finished: 512f20b5-fd6c-4b0a-bc8b-14874495fd16
+[06:27:56] - [<module>] - Finished one loop
+[06:27:56] - [<module>] - Prepared data (prepare_data)
+[06:27:56] - [<module>] - Key: 4d9fa51f-2be1-4e18-b2a9-0158784bbaed
+[06:27:56] - [<module>] - Request type: update
+[06:27:56] - [<module>] - WidgetId: d71b3c5d-044a-4bda-ad70-4a871712dba0
+[06:27:56] - [<module>] - Updating bucket request
+[06:27:56] - [delete_s3bucket_data] - Deleted request (delete_s3bucket_data)
+[06:27:56] - [insert_into_bucket] - Got s3 bucket data (prepare_s3bucket_dataa)
