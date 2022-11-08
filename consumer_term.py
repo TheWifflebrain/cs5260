@@ -211,6 +211,8 @@ if __name__ == '__main__':
                     body = obj.body
                 # prepare the data for the aws commands
                 body, json_data, owner = prepare_data(body)
+                if(isinstance(body, bytes) == False):
+                    body = body.encode('utf-8')
                 logging.info("Prepared data (prepare_data)")
                 logging.info(f'Key: {key}')
                 # blank requests do not do them
