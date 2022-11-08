@@ -206,7 +206,6 @@ if __name__ == '__main__':
                     except:
                         logging.info('This request is already being processed')
                         break
-                        raise Exception
                 if(type_rtu == "q"):
                     key = obj.message_id
                     body = obj.body
