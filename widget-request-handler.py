@@ -16,7 +16,7 @@ def lambda_handler(event, context):
         if 'type' not in body_json:
             logging.info("no type in body in widget-request-handler.")
             return {
-            'statusCode': 200,
+            'statusCode': 499,
             'body': "Request not processed due to no type of request."
         }
         req_type = body_json['type']
@@ -38,6 +38,6 @@ def lambda_handler(event, context):
     else:
         logging.info("Request was empty.")
         return {
-            'statusCode': 200,
+            'statusCode': 499,
             'body': "Request not processed due to no valid request (empty body)."
         }
